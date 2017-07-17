@@ -1,0 +1,19 @@
+<resources>
+
+    <declare-styleable name="Banner">
+        <!--是否自动轮播-->
+        <attr name="banner_isAuto" format="boolean" />
+        <!--轮播间隔时间-->
+        <attr name="banner_autoMs" format="integer" />
+        <!--宽高比 eg: 16:9-->
+        <attr name="banner_w2h" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="BannerIndicator">
+        <!-- item的间距 -->
+        <attr name="banner_itemMargin" format="dimension" />
+        <!--仅有一个时，是否显示指示器-->
+        <attr name="banner_onlyOneVisible" format="boolean" />
+    </declare-styleable>
+
+</resources>

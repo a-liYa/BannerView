@@ -1,15 +1,20 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
+def vCode = 1
+def vName = '0.1.0'
 
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
+
     defaultConfig {
-        applicationId "com.aliya.bannerview"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode vCode
+        versionName vName
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -21,5 +26,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':library')
+    compile 'com.android.support:support-v4:26.0.0-alpha1'
 }
+
+ext {
+    publishArtifact = 'bannerview'
+    publishVersion = vName // 发布到Jcenter的版本号
+    publishDesc = 'BannerView 实现自动无限轮播的 ViewPager'
+    publishWebsite = 'https://github.com/a-liYa/BannerView'
+}
+
+apply from: "${rootDir}/publish.gradle"
