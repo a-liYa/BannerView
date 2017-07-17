@@ -44,6 +44,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
     private Integer selectedKey = SELECTED_NO_KEY;
 
     public static final int SELECTED_NO_KEY = -1;
+
     public BannerIndicatorLayout(Context context, AttributeSet attrs,
                                  int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -61,7 +62,8 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
     private void initView(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BannerIndicator);
-            mItemMargin = ta.getDimensionPixelSize(R.styleable.BannerIndicator_banner_itemMargin, 0);
+            mItemMargin = ta.getDimensionPixelSize(R.styleable.BannerIndicator_banner_itemMargin,
+                    0);
             onlyOneVisible = ta.getBoolean(R.styleable.BannerIndicator_banner_onlyOneVisible, true);
             ta.recycle();
         }
@@ -74,7 +76,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
     /**
      * 设置适配器
      *
-     * @param adapter
+     * @param adapter Adapter
      */
     public void setAdapter(IndicatorAdapter adapter) {
         this.mAdapter = adapter;
@@ -85,7 +87,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
     /**
      * 设置BannerView（即与BannerView绑定）
      *
-     * @param bannerView
+     * @param bannerView BannerView
      */
     public void setupWithBanner(BannerView bannerView) {
 
@@ -226,12 +228,11 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
          *
          * @param index            当前屏幕可见第一个item下标
          * @param indexView        第一个item
-         * @param indexOffset      第一个滚动比例 [0.0 - 1.0) : 选中 -> 未选中
+         * @param indexOffset      第一个滚动比例 [0.0 - 1.0) : 选中 - 未选中
          * @param laterIndex       当前屏幕可见第二个item下标
          * @param laterIndexView   第二个item
-         * @param laterIndexOffset 第二个滚动比例 [1.0 - 0.0) : 未选中 -> 选中
-         *                         <br/>
-         *                         总结：0.0 代表选中 -> 1.0 代表未选中
+         * @param laterIndexOffset 第二个滚动比例 [1.0 - 0.0) : 未选中 - 选中
+         *                         总结：0.0 代表选中 - 1.0 代表未选中
          */
         void onPagerScrolled(int index, View indexView,
                              float indexOffset, int laterIndex, View laterIndexView,

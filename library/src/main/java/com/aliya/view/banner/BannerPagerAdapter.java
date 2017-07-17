@@ -22,7 +22,7 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
     /**
      * @param container 父容器
      * @param position  item index
-     * @return
+     * @return view
      * @see #instantiateItem(ViewGroup, int)
      */
     protected abstract View getItem(ViewGroup container, int position);

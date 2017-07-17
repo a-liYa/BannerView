@@ -66,16 +66,12 @@ public class BannerView extends RelativeLayout {
         stopAuto();
     }
 
-    /**
-     * 获当前选中item的index
-     */
+    // 获当前选中item的index
     public int getCurrentItem() {
         return resolvePosition(mViewPager.getAdapter().getCount(), mViewPager.getCurrentItem());
     }
 
-    /**
-     * 设置对应下标item的当前条目
-     */
+    // 设置对应下标item的当前条目
     public void setCurrentItem(int item) {
         if (item < 0 || item >= mItemCount) return;
 
@@ -132,9 +128,6 @@ public class BannerView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    /**
-     * 添加Banner条滚动监听
-     */
     public void addOnPageChangeListener(OnPageChangeListener onBannerPageChangeListener) {
         mOnPageChangeListeners.add(onBannerPageChangeListener);
     }
@@ -261,14 +254,16 @@ public class BannerView extends RelativeLayout {
 
     /**
      * 设置轮播时间间隔
+     *
+     * @param autoMs 时间 ms
      */
     public void setAutoMs(int autoMs) {
         this.mAutoMs = autoMs;
     }
 
     /**
-     * 开始轮播 为防止重复，先取消轮播<br/>
-     * 在Activity或Fragment的onStart()方法里调用
+     * 开始轮播
+     * 建议：在Activity或Fragment的onStart()方法里调用
      */
     public final void startAuto() {
         if (isCurrCanAuto()) {
@@ -277,8 +272,8 @@ public class BannerView extends RelativeLayout {
     }
 
     /**
-     * 停止轮播<br/>
-     * 在Activity或Fragment的onStop()方法里调用
+     * 停止轮播
+     * 建议：在Activity或Fragment的onStop()方法里调用
      */
     public final void stopAuto() {
         removeCallbacks(mAutoRunnable);
