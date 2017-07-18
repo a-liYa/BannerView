@@ -15,25 +15,25 @@ import com.aliya.view.banner.OnItemClickListener;
 
 public class MainActivity extends Activity implements View.OnClickListener, OnItemClickListener {
 
-    BannerIndicatorLayout mBannerIndicator;
-    BannerView mBannerView;
+    BannerIndicatorLayout indicator;
+    BannerView banner;
 
-    private BannerPagerAdapter mPagerAdapter;
+    private BannerPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mBannerIndicator = findViewById(R.id.banner_indicator);
-        mBannerView = findViewById(R.id.banner_view);
+        indicator = findViewById(R.id.banner_indicator);
+        banner = findViewById(R.id.banner_view);
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
         findViewById(R.id.btn_0_num).setOnClickListener(this);
         findViewById(R.id.btn_1_num).setOnClickListener(this);
         findViewById(R.id.btn_5_num).setOnClickListener(this);
 
-        mPagerAdapter = new BannerPagerAdapter() {
+        adapter = new BannerPagerAdapter() {
 
             @Override
             public int getTruthCount() {
@@ -50,11 +50,11 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
         };
 
-        mBannerView.setAdapter(mPagerAdapter);
+        banner.setAdapter(adapter);
 
-        mBannerView.setOnItemClickListener(this);
+        banner.setOnItemClickListener(this);
 
-        mBannerIndicator.setAdapter(new BannerIndicatorLayout.IndicatorAdapter() {
+        indicator.setAdapter(new BannerIndicatorLayout.IndicatorAdapter() {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
             }
         });
 
-        mBannerIndicator.setupWithBanner(mBannerView);
+        indicator.setupWithBanner(banner);
 
     }
 
@@ -82,14 +82,14 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_start:
-                mBannerView.setAutoCarousel(true);
-                mBannerView.startAuto();
+                banner.setAutoCarousel(true);
+                banner.startAuto();
                 break;
             case R.id.btn_stop:
-                mBannerView.stopAuto();
+                banner.stopAuto();
                 break;
             case R.id.btn_0_num:
-                mPagerAdapter = new BannerPagerAdapter() {
+                adapter = new BannerPagerAdapter() {
 
                     @Override
                     public int getTruthCount() {
@@ -105,10 +105,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                     }
 
                 };
-                mBannerView.setAdapter(mPagerAdapter);
+                banner.setAdapter(adapter);
                 break;
             case R.id.btn_1_num:
-                mPagerAdapter = new BannerPagerAdapter() {
+                adapter = new BannerPagerAdapter() {
 
                     @Override
                     public int getTruthCount() {
@@ -124,10 +124,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                     }
 
                 };
-                mBannerView.setAdapter(mPagerAdapter);
+                banner.setAdapter(adapter);
                 break;
             case R.id.btn_5_num:
-                mPagerAdapter = new BannerPagerAdapter() {
+                adapter = new BannerPagerAdapter() {
 
                     @Override
                     public int getTruthCount() {
@@ -143,7 +143,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                     }
 
                 };
-                mBannerView.setAdapter(mPagerAdapter);
+                banner.setAdapter(adapter);
                 break;
         }
     }
