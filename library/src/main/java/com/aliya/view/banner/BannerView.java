@@ -154,6 +154,9 @@ public class BannerView extends RelativeLayout {
             mViewPager.addOnPageChangeListener(mOnPageChangeListener);
             mViewPager.setCurrentItem(1);
             startAuto();
+        } else if (mItemCount == 1) {
+            // 防止首次不回调
+            mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem());
         }
         if (mAdapterChangeListener != null) {
             mAdapterChangeListener.onAdapterChange();
