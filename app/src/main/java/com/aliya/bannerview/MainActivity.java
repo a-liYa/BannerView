@@ -112,7 +112,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                     @Override
                     public int getTruthCount() {
-                        return 1;
+                        return 3;
                     }
 
                     @Override
@@ -125,6 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                 };
                 banner.setAdapter(adapter);
+                banner.setAutoCarousel(false);
                 break;
             case R.id.btn_5_num:
                 adapter = new BannerPagerAdapter() {
@@ -144,6 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                 };
                 banner.setAdapter(adapter);
+                banner.setAutoCarousel(true);
                 break;
         }
     }

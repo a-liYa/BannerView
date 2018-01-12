@@ -36,7 +36,7 @@ public class BannerView extends RelativeLayout {
      * 宽高的比率
      */
     private float ratio_w_h = -1;
-    private static final String DIVIDER_TAG = ":";
+    private static final String RATIO_SYMBOL = ":";
 
     public BannerView(Context context) {
         this(context, null);
@@ -90,8 +90,8 @@ public class BannerView extends RelativeLayout {
 
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
         String w_h = ta.getString(R.styleable.Banner_banner_w2h);
-        if (!TextUtils.isEmpty(w_h) && w_h.contains(DIVIDER_TAG)) {
-            String[] split = w_h.trim().split(DIVIDER_TAG);
+        if (!TextUtils.isEmpty(w_h) && w_h.contains(RATIO_SYMBOL)) {
+            String[] split = w_h.trim().split(RATIO_SYMBOL);
             if (split != null && split.length == 2) {
                 try {
                     ratio_w_h = Float.parseFloat(split[0].trim())
@@ -249,9 +249,13 @@ public class BannerView extends RelativeLayout {
      * @param canAuto true；自动轮播；false：不能自动
      */
     public void setAutoCarousel(boolean canAuto) {
-        this.autoCarousel = canAuto;
-        if (!canAuto) {
-            stopAuto();
+        if (this.autoCarousel != canAuto) {
+            this.autoCarousel = canAuto;
+            if (canAuto) {
+                startAuto();
+            } else {
+                stopAuto();
+            }
         }
     }
 
@@ -269,6 +273,7 @@ public class BannerView extends RelativeLayout {
      * 建议：在Activity或Fragment的onStart()方法里调用
      */
     public final void startAuto() {
+        removeCallbacks(mAutoRunnable);
         if (isCurrCanAuto()) {
             postDelayed(mAutoRunnable, mAutoMs);
         }
