@@ -63,4 +63,11 @@
         android:layout_gravity="center_horizontal"
         android:text="5个" />
 
+    <Button
+        android:id="@+id/btn_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="画廊示例" />
+
 </LinearLayout>

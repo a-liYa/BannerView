@@ -28,6 +28,9 @@ public class BannerView extends RelativeLayout {
     private boolean autoCarousel = true; // 是否自动轮播
     private boolean isAttached = false; // this view is currently attached to a window.
 
+    private int mPagerPaddingLeft;
+    private int mPagerPaddingRight;
+
     private int mItemCount; // banner条目个数
 
     private BannerPagerAdapter mAdapter;
@@ -104,6 +107,16 @@ public class BannerView extends RelativeLayout {
 
         mAutoMs = ta.getInteger(R.styleable.Banner_banner_autoMs, mAutoMs);
         autoCarousel = ta.getBoolean(R.styleable.Banner_banner_isAuto, autoCarousel);
+
+        mPagerPaddingLeft = ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingLeft, 0);
+        mPagerPaddingRight = ta.getDimensionPixelSize(
+                R.styleable.Banner_banner_pagerPaddingRight, 0);
+
+        mViewPager.setPadding(mPagerPaddingLeft, 0, mPagerPaddingRight, 0);
+        if (mPagerPaddingLeft > 0 || mPagerPaddingRight > 0) {
+            mViewPager.setClipToPadding(false);
+        }
+
         ta.recycle();
     }
 

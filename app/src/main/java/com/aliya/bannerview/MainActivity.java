@@ -1,6 +1,7 @@
 package com.aliya.bannerview;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
         findViewById(R.id.btn_0_num).setOnClickListener(this);
         findViewById(R.id.btn_1_num).setOnClickListener(this);
         findViewById(R.id.btn_5_num).setOnClickListener(this);
+        findViewById(R.id.btn_gallery).setOnClickListener(this);
 
         adapter = new BannerPagerAdapter() {
 
@@ -146,6 +148,9 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                 };
                 banner.setAdapter(adapter);
                 banner.setAutoCarousel(true);
+                break;
+            case R.id.btn_gallery:
+//                startActivity(new Intent(this, ));
                 break;
         }
     }

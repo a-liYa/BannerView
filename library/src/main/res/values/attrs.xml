@@ -7,6 +7,8 @@
         <attr name="banner_autoMs" format="integer" />
         <!--宽高比 eg: 16:9-->
         <attr name="banner_w2h" format="string" />
+        <attr name="banner_pagerPaddingLeft" format="dimension" />
+        <attr name="banner_pagerPaddingRight" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="BannerIndicator">
