@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:banner_autoMs="3000"
-        app:banner_isAuto="false"
-        app:banner_w2h="360:206">
-
+        app:banner_isAuto="true"
+        app:banner_pagerPaddingLeft="40dp"
+        app:banner_pagerPaddingRight="40dp"
+        app:banner_w2h="280:150">
 
     </com.aliya.view.banner.BannerView>
 

@@ -126,7 +126,8 @@ public class BannerView extends RelativeLayout {
             int wMode = MeasureSpec.getMode(widthMeasureSpec);
             int hMode = MeasureSpec.getMode(heightMeasureSpec);
 
-            int wSize = MeasureSpec.getSize(widthMeasureSpec);
+            int wSize = MeasureSpec.getSize(widthMeasureSpec)
+                    - mPagerPaddingLeft - mPagerPaddingRight;
             int hSize = MeasureSpec.getSize(heightMeasureSpec);
 
             if (wMode == MeasureSpec.EXACTLY && hMode != MeasureSpec.EXACTLY) {
@@ -175,6 +176,10 @@ public class BannerView extends RelativeLayout {
             mAdapterChangeListener.onAdapterChange();
         }
 
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
     }
 
     private OnItemClickListener mInnerOnItemClickListener = new OnItemClickListener() {

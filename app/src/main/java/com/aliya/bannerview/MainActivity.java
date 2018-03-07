@@ -150,7 +150,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                 banner.setAutoCarousel(true);
                 break;
             case R.id.btn_gallery:
-//                startActivity(new Intent(this, ));
+                startActivity(new Intent(this, GallerySimpleActivity.class));
                 break;
         }
     }
