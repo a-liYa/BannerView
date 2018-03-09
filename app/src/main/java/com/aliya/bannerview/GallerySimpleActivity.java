@@ -31,7 +31,7 @@ public class GallerySimpleActivity extends Activity {
 
             @Override
             public int getTruthCount() {
-                return 2;
+                return 5;
             }
 
             @Override
@@ -44,6 +44,7 @@ public class GallerySimpleActivity extends Activity {
             }
 
         };
+
         ViewPager viewPager = banner.getViewPager();
 
         viewPager.setPageTransformer(true,

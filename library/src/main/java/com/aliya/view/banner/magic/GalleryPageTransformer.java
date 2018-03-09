@@ -23,7 +23,6 @@ public class GalleryPageTransformer implements ViewPager.PageTransformer {
         mMinScale = minScale;
         mPageMargin = pageMargin;
         mViewPager = viewPager;
-
         viewPager.setOffscreenPageLimit(3);
     }
 

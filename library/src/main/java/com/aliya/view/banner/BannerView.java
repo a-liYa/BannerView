@@ -214,12 +214,6 @@ public class BannerView extends RelativeLayout {
                     iterable.onPageScrolled(index, positionOffset, positionOffsetPixels);
                 }
             }
-            if (positionOffset == 0.0f && positionOffsetPixels == 0) {
-                if (index + 1 != position) {
-                    mViewPager.setCurrentItem(index + 1, false); // false:不显示跳转过程的动画
-                }
-            }
-
         }
 
         // 当滑动的状态变化时
@@ -232,10 +226,14 @@ public class BannerView extends RelativeLayout {
                 }
             }
 
-            // 当手指触摸时说明在滑动状态为SCROLL_STATE_DRAGGING 取消定时器
+            // 滑动结束，开启定时器
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 startAuto();
-            } else {
+                int index = getCurrentItem();
+                if (index + 1 != mViewPager.getCurrentItem()) {
+                    mViewPager.setCurrentItem(index + 1, false);
+                }
+            } else { // 滑动中，停止定时器
                 stopAuto();
             }
         }
@@ -292,7 +290,7 @@ public class BannerView extends RelativeLayout {
      */
     public final void startAuto() {
         removeCallbacks(mAutoRunnable);
-        if (isCurrCanAuto()) {
+        if (isCanAuto()) {
             postDelayed(mAutoRunnable, mAutoMs);
         }
     }
@@ -307,7 +305,7 @@ public class BannerView extends RelativeLayout {
 
 
     // 当前是否可以自动轮播
-    private boolean isCurrCanAuto() {
+    private boolean isCanAuto() {
         return mViewPager != null
                 && autoCarousel
                 && isAttached
@@ -321,7 +319,7 @@ public class BannerView extends RelativeLayout {
             if (mViewPager == null)
                 return;
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-            if (isCurrCanAuto()) {
+            if (isCanAuto()) {
                 postDelayed(mAutoRunnable, mAutoMs);
             }
         }
