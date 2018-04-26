@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.aliya.view.banner.BannerPagerAdapter;
 import com.aliya.view.banner.BannerView;
@@ -31,15 +31,16 @@ public class GallerySimpleActivity extends Activity {
 
             @Override
             public int getTruthCount() {
-                return 5;
+                return 8;
             }
 
             @Override
             protected View getItem(ViewGroup container, int position) {
                 View inflate = LayoutInflater.from(container.getContext()).inflate(R.layout
                         .module_pager_item, container, false);
-                ImageView view = inflate.findViewById(R.id.image_view);
-                view.setImageResource(imgIds[position]);
+                TextView textView = inflate.findViewById(R.id.image_view);
+                textView.setText(String.valueOf(position));
+                inflate.setTag(position);
                 return inflate;
             }
 
@@ -51,6 +52,18 @@ public class GallerySimpleActivity extends Activity {
                 new GalleryPageTransformer(viewPager, dip2px(20), 1, 0.86f));
         banner.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        banner.startAuto();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        banner.stopAuto();
     }
 
     /**

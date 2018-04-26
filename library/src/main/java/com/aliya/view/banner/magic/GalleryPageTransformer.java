@@ -42,6 +42,9 @@ public class GalleryPageTransformer implements ViewPager.PageTransformer {
         if (page.getParent() instanceof View) {
             View parent = (ViewPager) page.getParent();
             int scrollX = parent.getScrollX();
+            /**
+             * 参考自{@link ViewPager#onPageScrolled(int, float, int)}
+             */
             position = (float) (page.getLeft() - parent.getPaddingLeft() - scrollX) /
                     getClientWidth(parent);
         }

@@ -69,7 +69,11 @@ public class BannerView extends RelativeLayout {
         stopAuto();
     }
 
-    // 获当前选中item的index
+    /**
+     * 获取当前item
+     *
+     * @return item position
+     */
     public int getCurrentItem() {
         return resolvePosition(mViewPager.getAdapter().getCount(), mViewPager.getCurrentItem());
     }
@@ -208,10 +212,10 @@ public class BannerView extends RelativeLayout {
         @Override
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
-            int index = resolvePosition(mViewPager.getAdapter().getCount(), position);
+            position = resolvePosition(mViewPager.getAdapter().getCount(), position);
             if (mOnPageChangeListeners != null && mOnPageChangeListeners.size() > 0) {
                 for (OnPageChangeListener iterable : mOnPageChangeListeners) {
-                    iterable.onPageScrolled(index, positionOffset, positionOffsetPixels);
+                    iterable.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 }
             }
         }

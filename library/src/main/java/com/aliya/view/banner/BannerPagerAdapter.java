@@ -36,9 +36,7 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
     @Override
     public final Object instantiateItem(ViewGroup container, final int position) {
 
-        int index;
-
-        index = BannerView.resolvePosition(getCount(), position);
+        int index = BannerView.resolvePosition(getCount(), position);
 
         View item;
         SoftReference<View> softReference = mItemCaches.get(position);
