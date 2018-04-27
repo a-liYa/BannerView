@@ -1,5 +1,7 @@
 package com.aliya.view.banner;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 
@@ -27,14 +29,15 @@ public class BannerView extends RelativeLayout {
     private ViewPager mViewPager;
     private Set<OnPageChangeListener> mOnPageChangeListeners = new HashSet<>();
 
-    private int mAutoMs = 3000;         // 轮播间隔时间
-    private boolean autoFlag = true;    // 是否自动轮播标志, true:自动
+    private int mAutoMs;                // 轮播间隔时间.
+    private boolean auto = true;        // 是否自动轮播标志, true:自动.
+    private boolean onStarted = true;   // 是否在生命周期 onStart() 和 onStop() 之间, 默认为true.
     private boolean isAttached = false; // this view is currently attached to a window.
 
-    private int mPagerPaddingLeft;      // ViewPager#paddingLeft
-    private int mPagerPaddingRight;     // ViewPager#paddingRight
+    private int mPagerPaddingLeft;      // ViewPager#paddingLeft.
+    private int mPagerPaddingRight;     // ViewPager#paddingRight.
 
-    private int mItemCount; // banner条目个数
+    private int mItemCount;             // banner条目个数.
 
     private BannerPagerAdapter mAdapter;
 
@@ -55,6 +58,47 @@ public class BannerView extends RelativeLayout {
     public BannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context, attrs);
+    }
+
+    private void initView(Context context, AttributeSet attrs) {
+        mViewPager = new ViewPager(context);
+        addView(mViewPager, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        if (attrs == null) return;
+
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
+
+        { // 固定宽高比参数
+            String w_h = ta.getString(R.styleable.Banner_banner_w2h);
+            if (!TextUtils.isEmpty(w_h) && w_h.contains(RATIO_SYMBOL)) {
+                String[] split = w_h.trim().split(RATIO_SYMBOL);
+                if (split != null && split.length == 2) {
+                    try {
+                        ratio_w_h = Float.parseFloat(split[0].trim())
+                                / Float.parseFloat(split[1].trim());
+                    } catch (NumberFormatException e) {
+                        // no-op
+                    }
+                }
+            }
+        }
+
+        auto = ta.getBoolean(R.styleable.Banner_banner_isAuto, auto);
+        mAutoMs = ta.getInteger(R.styleable.Banner_banner_autoMs,
+                context.getResources().getInteger(R.integer.banner_view_auto_duration));
+
+        mPagerPaddingLeft =
+                ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingLeft, 0);
+        mPagerPaddingRight =
+                ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingRight, 0);
+
+        mViewPager.setPadding(mPagerPaddingLeft, 0, mPagerPaddingRight, 0);
+        if (mPagerPaddingLeft > 0 || mPagerPaddingRight > 0) {
+            mViewPager.setClipToPadding(false);
+        }
+
+        ta.recycle();
     }
 
     @Override
@@ -102,46 +146,10 @@ public class BannerView extends RelativeLayout {
             if (item - modulus > mItemCount - (item - modulus)) { // 前面近
                 mViewPager.setCurrentItem(currentItem - mItemCount - (item - modulus),
                         smoothScroll);
-            } else {
+            } else { // 后面近
                 mViewPager.setCurrentItem(currentItem + item - modulus, smoothScroll);
             }
         }
-    }
-
-    private void initView(Context context, AttributeSet attrs) {
-        mViewPager = new ViewPager(context);
-        addView(mViewPager, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        if (attrs == null) return;
-
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
-        String w_h = ta.getString(R.styleable.Banner_banner_w2h);
-        if (!TextUtils.isEmpty(w_h) && w_h.contains(RATIO_SYMBOL)) {
-            String[] split = w_h.trim().split(RATIO_SYMBOL);
-            if (split != null && split.length == 2) {
-                try {
-                    ratio_w_h = Float.parseFloat(split[0].trim())
-                            / Float.parseFloat(split[1].trim());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        mAutoMs = ta.getInteger(R.styleable.Banner_banner_autoMs, mAutoMs);
-        autoFlag = ta.getBoolean(R.styleable.Banner_banner_isAuto, autoFlag);
-
-        mPagerPaddingLeft = ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingLeft, 0);
-        mPagerPaddingRight = ta.getDimensionPixelSize(
-                R.styleable.Banner_banner_pagerPaddingRight, 0);
-
-        mViewPager.setPadding(mPagerPaddingLeft, 0, mPagerPaddingRight, 0);
-        if (mPagerPaddingLeft > 0 || mPagerPaddingRight > 0) {
-            mViewPager.setClipToPadding(false);
-        }
-
-        ta.recycle();
     }
 
     @Override
@@ -256,15 +264,16 @@ public class BannerView extends RelativeLayout {
      *
      * @param canAuto true；自动轮播；false：不能自动
      */
-    public void setAutoFlag(boolean canAuto) {
-        if (this.autoFlag != canAuto) {
-            this.autoFlag = canAuto;
-            if (canAuto) {
-                startAuto();
-            } else {
-                stopAuto();
-            }
+    public void setAuto(boolean canAuto) {
+        if (auto = canAuto) {
+            startAuto();
+        } else {
+            stopAuto();
         }
+    }
+
+    public boolean isAuto() {
+        return auto;
     }
 
     /**
@@ -277,8 +286,23 @@ public class BannerView extends RelativeLayout {
     }
 
     /**
-     * 开始轮播
-     * 建议：在Activity或Fragment的onStart()方法里调用
+     * 生命周期，在{@link Activity#onStart()}或{@link Fragment#onStart()}调用
+     */
+    public final void onStart() {
+        onStarted = true;
+        startAuto();
+    }
+
+    /**
+     * 生命周期，在{@link Activity#onStop()}或{@link Fragment#onStop()}调用
+     */
+    public final void onStop() {
+        onStarted = false;
+        stopAuto();
+    }
+
+    /**
+     * 开始轮播, 如果条件均满足的话.
      */
     public final void startAuto() {
         removeCallbacks(mAutoRunnable);
@@ -289,7 +313,6 @@ public class BannerView extends RelativeLayout {
 
     /**
      * 停止轮播
-     * 建议：在Activity或Fragment的onStop()方法里调用
      */
     public final void stopAuto() {
         removeCallbacks(mAutoRunnable);
@@ -301,11 +324,11 @@ public class BannerView extends RelativeLayout {
      * @return true : 可以
      */
     private boolean isCanAuto() {
-        return mViewPager != null
-                && autoFlag
+        return mAdapter != null
+                && mAdapter.isCanCycle()
+                && auto
                 && isAttached
-                && mAdapter != null
-                && mItemCount > 1;
+                && onStarted;
     }
 
     private Runnable mAutoRunnable = new Runnable() {
@@ -330,5 +353,6 @@ public class BannerView extends RelativeLayout {
     void setAdapterChangeListener(OnAdapterChangeListener listener) {
         mAdapterChangeListener = listener;
     }
+
 
 }

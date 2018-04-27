@@ -82,7 +82,8 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_start:
-                banner.setAutoFlag(true);
+                banner.setAuto(true);
+                banner.startAuto();
                 break;
             case R.id.btn_stop:
                 banner.stopAuto();
@@ -124,7 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                 };
                 banner.setAdapter(adapter);
-                banner.setAutoFlag(false);
+                banner.setAuto(false);
                 break;
             case R.id.btn_5_num:
                 adapter = new BannerPagerAdapter() {
@@ -144,7 +145,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                 };
                 banner.setAdapter(adapter);
-                banner.setAutoFlag(true);
+                banner.setAuto(true);
                 break;
             case R.id.btn_gallery:
                 startActivity(new Intent(this, GallerySimpleActivity.class));

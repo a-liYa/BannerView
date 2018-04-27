@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--BannerView自动轮播默认时间间隔-->
+    <item name="banner_view_auto_duration" format="integer" type="integer">3000</item>
+</resources>
