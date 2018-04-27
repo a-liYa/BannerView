@@ -57,13 +57,13 @@ public class GallerySimpleActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-//        banner.startAuto();
+        banner.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-//        banner.stopAuto();
+        banner.onStop();
     }
 
     /**

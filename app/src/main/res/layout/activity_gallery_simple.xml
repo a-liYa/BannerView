@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:banner_autoMs="8000"
+        app:banner_autoMs="4000"
         app:banner_isAuto="true"
         app:banner_pagerPaddingLeft="40dp"
         app:banner_pagerPaddingRight="40dp"

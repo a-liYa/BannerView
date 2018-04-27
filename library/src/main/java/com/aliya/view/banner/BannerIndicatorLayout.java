@@ -71,7 +71,6 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
 
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER);
-
     }
 
     /**
@@ -134,8 +133,8 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
                         lp = new LayoutParams(LayoutParams.WRAP_CONTENT, ViewGroup
                                 .LayoutParams.WRAP_CONTENT);
                     }
-                    int left = (int) (mItemMargin / 2.0 + 0.5);
-                    int right = (int) (mItemMargin / 2.0 + 0.5);
+                    int left = Math.round(mItemMargin / 2.0f);
+                    int right = Math.round(mItemMargin / 2.0f);
                     if (i == 0) {
                         left = 0;
                     }
