@@ -82,12 +82,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_start:
-//                banner.setAutoCarousel(true);
-//                banner.startAuto();
+                banner.setAutoCarousel(true);
                 break;
             case R.id.btn_stop:
-//                banner.stopAuto();
-                banner.getViewPager().setCurrentItem(0, false);
+                banner.stopAuto();
                 break;
             case R.id.btn_0_num:
                 adapter = new BannerPagerAdapter() {
@@ -109,7 +107,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                 banner.setAdapter(adapter);
                 break;
             case R.id.btn_1_num:
-                adapter = new BannerPagerAdapter() {
+                adapter = new BannerPagerAdapter(false) {
 
                     @Override
                     public int getTruthCount() {
@@ -146,7 +144,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                 };
                 banner.setAdapter(adapter);
-//                banner.setAutoCarousel(true);
+                banner.setAutoCarousel(true);
                 break;
             case R.id.btn_gallery:
                 startActivity(new Intent(this, GallerySimpleActivity.class));
