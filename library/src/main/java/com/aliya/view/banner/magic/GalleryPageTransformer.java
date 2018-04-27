@@ -1,7 +1,7 @@
 package com.aliya.view.banner.magic;
 
 import android.os.Build;
-import com.aliya.view.banner.ViewPager;
+import com.aliya.view.banner.view.ViewPager;
 import android.view.View;
 
 /**

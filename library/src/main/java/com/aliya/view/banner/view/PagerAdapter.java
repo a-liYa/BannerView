@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aliya.view.banner;
+package com.aliya.view.banner.view;
 
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;

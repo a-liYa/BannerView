@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aliya.view.banner;
+package com.aliya.view.banner.view;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -88,7 +88,7 @@ import java.util.List;
  * its {@code android:layout_gravity} attribute. For example:
  *
  * <pre>
- * &lt;com.aliya.view.banner.ViewPager
+ * &lt;com.aliya.view.banner.view.ViewPager
  *     android:layout_width=&quot;match_parent&quot;
  *     android:layout_height=&quot;match_parent&quot;&gt;
  *
@@ -97,7 +97,7 @@ import java.util.List;
  *         android:layout_height=&quot;wrap_content&quot;
  *         android:layout_gravity=&quot;top&quot; /&gt;
  *
- * &lt;/com.aliya.view.banner.ViewPager&gt;
+ * &lt;/com.aliya.view.banner.view.ViewPager&gt;
  * </pre>
  *
  * <p>For more information about how to use ViewPager, read <a

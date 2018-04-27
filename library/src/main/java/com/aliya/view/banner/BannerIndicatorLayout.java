@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.aliya.view.banner.view.ViewPager;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;

@@ -1,9 +1,10 @@
 package com.aliya.view.banner;
 
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.aliya.view.banner.view.PagerAdapter;
 
 import java.lang.ref.SoftReference;
 import java.util.LinkedList;
@@ -19,6 +20,15 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
 
     private SparseArray<Queue<SoftReference<View>>> mItemCaches = new SparseArray<>();
 
+    private boolean canCycle = true; // 默认可以循环
+
+    public BannerPagerAdapter() {
+    }
+
+    public BannerPagerAdapter(boolean canCycle) {
+        this.canCycle = canCycle;
+    }
+
     public abstract int getTruthCount();
 
     /**
@@ -31,14 +41,20 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
      */
     protected abstract View getItem(ViewGroup container, int position);
 
+    public boolean isCanCycle() {
+        return canCycle;
+    }
+
     @Override
     public final int getCount() {
-        return getTruthCount() > 0 ? Integer.MAX_VALUE : 0;
+        if (canCycle && getTruthCount() > 0) {
+            return Integer.MAX_VALUE;
+        }
+        return getTruthCount();
     }
 
     @Override
     public final Object instantiateItem(ViewGroup container, int position) {
-
         int index = position % getTruthCount();
 
         View item = null;

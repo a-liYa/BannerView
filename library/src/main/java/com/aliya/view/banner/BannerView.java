@@ -3,7 +3,8 @@ package com.aliya.view.banner;
 import android.content.Context;
 import android.content.res.TypedArray;
 
-import com.aliya.view.banner.ViewPager.OnPageChangeListener;
+import com.aliya.view.banner.view.ViewPager;
+import com.aliya.view.banner.view.ViewPager.OnPageChangeListener;
 
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -26,12 +27,12 @@ public class BannerView extends RelativeLayout {
     private ViewPager mViewPager;
     private Set<OnPageChangeListener> mOnPageChangeListeners = new HashSet<>();
 
-    private int mAutoMs = 3000; // 轮播间隔时间
-    private boolean autoCarousel = true; // 是否自动轮播
+    private int mAutoMs = 3000;         // 轮播间隔时间
+    private boolean autoFlag = true;    // 是否自动轮播标志, true:自动
     private boolean isAttached = false; // this view is currently attached to a window.
 
-    private int mPagerPaddingLeft;
-    private int mPagerPaddingRight;
+    private int mPagerPaddingLeft;      // ViewPager#paddingLeft
+    private int mPagerPaddingRight;     // ViewPager#paddingRight
 
     private int mItemCount; // banner条目个数
 
@@ -54,7 +55,6 @@ public class BannerView extends RelativeLayout {
     public BannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context, attrs);
-
     }
 
     @Override
@@ -108,9 +108,6 @@ public class BannerView extends RelativeLayout {
         }
     }
 
-    /**
-     * 初始化ViewPager
-     */
     private void initView(Context context, AttributeSet attrs) {
         mViewPager = new ViewPager(context);
         addView(mViewPager, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -133,7 +130,7 @@ public class BannerView extends RelativeLayout {
         }
 
         mAutoMs = ta.getInteger(R.styleable.Banner_banner_autoMs, mAutoMs);
-        autoCarousel = ta.getBoolean(R.styleable.Banner_banner_isAuto, autoCarousel);
+        autoFlag = ta.getBoolean(R.styleable.Banner_banner_isAuto, autoFlag);
 
         mPagerPaddingLeft = ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingLeft, 0);
         mPagerPaddingRight = ta.getDimensionPixelSize(
@@ -192,11 +189,12 @@ public class BannerView extends RelativeLayout {
 
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        if (mItemCount > 0) {
-            int median = Integer.MAX_VALUE / 2;
+        if (mItemCount > 0 && mAdapter.isCanCycle()) {
+            int median = mAdapter.getCount() / 2;
             mViewPager.setCurrentItem(median - median % mItemCount, false);
             // 防止首次不回调
             mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem() % mItemCount);
+            startAuto();
         }
 
         if (mAdapterChangeListener != null) {
@@ -241,15 +239,11 @@ public class BannerView extends RelativeLayout {
             }
 
             // 滑动结束，开启定时器
-//            if (state == ViewPager.SCROLL_STATE_IDLE) {
-//                startAuto();
-//                int index = getCurrentItem();
-//                if (index + 1 != mViewPager.getCurrentItem()) {
-//                    mViewPager.setCurrentItem(index + 1, false);
-//                }
-//            } else { // 滑动中，停止定时器
-//                stopAuto();
-//            }
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                startAuto();
+            } else { // 滑动中，停止定时器
+                stopAuto();
+            }
         }
     };
 
@@ -262,9 +256,9 @@ public class BannerView extends RelativeLayout {
      *
      * @param canAuto true；自动轮播；false：不能自动
      */
-    public void setAutoCarousel(boolean canAuto) {
-        if (this.autoCarousel != canAuto) {
-            this.autoCarousel = canAuto;
+    public void setAutoFlag(boolean canAuto) {
+        if (this.autoFlag != canAuto) {
+            this.autoFlag = canAuto;
             if (canAuto) {
                 startAuto();
             } else {
@@ -301,11 +295,14 @@ public class BannerView extends RelativeLayout {
         removeCallbacks(mAutoRunnable);
     }
 
-
-    // 当前是否可以自动轮播
+    /**
+     * 判断当前否可以自动轮播
+     *
+     * @return true : 可以
+     */
     private boolean isCanAuto() {
         return mViewPager != null
-                && autoCarousel
+                && autoFlag
                 && isAttached
                 && mAdapter != null
                 && mItemCount > 1;
@@ -314,9 +311,14 @@ public class BannerView extends RelativeLayout {
     private Runnable mAutoRunnable = new Runnable() {
         @Override
         public void run() {
-            if (mViewPager == null)
-                return;
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+            if (mViewPager == null || mAdapter == null) return;
+
+            if (mViewPager.getCurrentItem() >= mAdapter.getCount()) {
+                int median = mAdapter.getCount() / 2;
+                mViewPager.setCurrentItem(median - median % mItemCount, false);
+            } else {
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+            }
             if (isCanAuto()) {
                 postDelayed(mAutoRunnable, mAutoMs);
             }
