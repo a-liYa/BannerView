@@ -108,9 +108,8 @@ import java.util.List;
  * sample code.
  *
  * <p>
- *  修改之处加了注释 {@code // a_liYa :}
+ *  TODO 修改之处加了注释 {@code // a_liYa :}
  * </p>
- *
  */
 public class ViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
@@ -665,7 +664,8 @@ public class ViewPager extends ViewGroup {
         }
         final boolean dispatchSelected = mCurItem != item;
 
-        if (mFirstLayout) {
+        // a_liYa : 或运算符右边是新添加的
+        if (mFirstLayout || (mFirstLayout = Math.abs(item - mCurItem) > 1000)) {
             // We don't have any idea how big we are yet and shouldn't have any pages either.
             // Just set things up and let the pending layout handle things.
             mCurItem = item;
@@ -1100,9 +1100,6 @@ public class ViewPager extends ViewGroup {
     }
 
     void populate(int newCurrentItem) {
-
-        long startMs = SystemClock.uptimeMillis();
-
         ItemInfo oldCurInfo = null;
         if (mCurItem != newCurrentItem) {
             oldCurInfo = infoForPosition(mCurItem);
@@ -1212,7 +1209,6 @@ public class ViewPager extends ViewGroup {
                     ii = itemIndex >= 0 ? mItems.get(itemIndex) : null;
                 }
             }
-//            Log.e(TAG, "populate: C 耗时" + (SystemClock.uptimeMillis() - startMs));
 
             float extraWidthRight = curItem.widthFactor;
             itemIndex = curIndex + 1;
@@ -1252,9 +1248,8 @@ public class ViewPager extends ViewGroup {
                     }
                 }
             }
-//            Log.e(TAG, "populate: D 耗时" + (SystemClock.uptimeMillis() - startMs));
+
             calculatePageOffsets(curItem, curIndex, oldCurInfo);
-//            Log.e(TAG, "populate: E 耗时" + (SystemClock.uptimeMillis() - startMs));
         }
         if (DEBUG) {
             Log.i(TAG, "Current page list:");
@@ -1347,7 +1342,6 @@ public class ViewPager extends ViewGroup {
                     ii.offset = offset;
                     offset += ii.widthFactor + marginOffset;
                 }
-                Log.e(TAG, "populate: A1 耗时" + (SystemClock.uptimeMillis() - startMs));
             } else if (oldCurPosition > curItem.position) {
                 int itemIndex = mItems.size() - 1;
                 ItemInfo ii = null;
@@ -1368,8 +1362,6 @@ public class ViewPager extends ViewGroup {
                     offset -= ii.widthFactor + marginOffset;
                     ii.offset = offset;
                 }
-                // 这里耗时
-                Log.e(TAG, "populate: A2 耗时" + (SystemClock.uptimeMillis() - startMs));
             }
         }
 
@@ -1380,7 +1372,6 @@ public class ViewPager extends ViewGroup {
         mFirstOffset = curItem.position == 0 ? curItem.offset : -Float.MAX_VALUE;
         mLastOffset = curItem.position == N - 1
                 ? curItem.offset + curItem.widthFactor - 1 : Float.MAX_VALUE;
-        Log.e(TAG, "populate: B 耗时" + (SystemClock.uptimeMillis() - startMs));
         // Previous pages
         for (int i = curIndex - 1; i >= 0; i--, pos--) {
             final ItemInfo ii = mItems.get(i);
@@ -1393,7 +1384,6 @@ public class ViewPager extends ViewGroup {
         }
         offset = curItem.offset + curItem.widthFactor + marginOffset;
         pos = curItem.position + 1;
-        Log.e(TAG, "populate: C 耗时" + (SystemClock.uptimeMillis() - startMs));
         // Next pages
         for (int i = curIndex + 1; i < itemCount; i++, pos++) {
             final ItemInfo ii = mItems.get(i);
@@ -1406,8 +1396,7 @@ public class ViewPager extends ViewGroup {
             ii.offset = offset;
             offset += ii.widthFactor + marginOffset;
         }
-        // 这里耗时
-        Log.e(TAG, "populate: D 耗时" + (SystemClock.uptimeMillis() - startMs));
+
         mNeedCalculatePageOffsets = false;
     }
 

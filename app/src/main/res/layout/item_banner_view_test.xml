@@ -2,12 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dd5555"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="50dp"
+        android:background="@drawable/bg_page_item"
         android:gravity="center" />
 
 </LinearLayout>

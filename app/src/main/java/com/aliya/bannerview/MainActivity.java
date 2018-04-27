@@ -84,11 +84,10 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
             case R.id.btn_start:
 //                banner.setAutoCarousel(true);
 //                banner.startAuto();
-                banner.currentItem0();
                 break;
             case R.id.btn_stop:
 //                banner.stopAuto();
-                banner.currentItemTwo();
+                banner.getViewPager().setCurrentItem(0, false);
                 break;
             case R.id.btn_0_num:
                 adapter = new BannerPagerAdapter() {

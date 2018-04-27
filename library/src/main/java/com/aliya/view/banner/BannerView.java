@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 
 import com.aliya.view.banner.ViewPager.OnPageChangeListener;
+
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
@@ -79,18 +80,32 @@ public class BannerView extends RelativeLayout {
         return mItemCount == 0 ? 0 : mViewPager.getCurrentItem() % mItemCount;
     }
 
-    // 设置对应下标item的当前条目
-    public void setCurrentItem(int item) {
-//        if (item < 0 || item >= mItemCount) return;
-        mViewPager.setCurrentItem(item, false);
-    }
+    /**
+     * Set the currently selected page.
+     *
+     * @param item         Item index to select
+     * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
+     */
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        if (item < 0 || item >= mItemCount) return;
 
-    public void currentItem0() {
-        mViewPager.setCurrentItem(0, false);
-    }
-
-    public void currentItemTwo() {
-        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 2);
+        int currentItem = mViewPager.getCurrentItem();
+        int modulus = currentItem % mItemCount;
+        if (modulus > item) {
+            if (modulus - item < mItemCount - (modulus - item)) { // 前面近
+                mViewPager.setCurrentItem(currentItem - (modulus - item), smoothScroll);
+            } else { // 后面近
+                mViewPager.setCurrentItem(currentItem + mItemCount - (modulus - item),
+                        smoothScroll);
+            }
+        } else if (modulus < item) {
+            if (item - modulus > mItemCount - (item - modulus)) { // 前面近
+                mViewPager.setCurrentItem(currentItem - mItemCount - (item - modulus),
+                        smoothScroll);
+            } else {
+                mViewPager.setCurrentItem(currentItem + item - modulus, smoothScroll);
+            }
+        }
     }
 
     /**
@@ -172,13 +187,14 @@ public class BannerView extends RelativeLayout {
 
         mAdapter = adapter;
         mItemCount = mAdapter.getTruthCount();
+
         mViewPager.setAdapter(mAdapter);
 
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
         if (mItemCount > 0) {
             int median = Integer.MAX_VALUE / 2;
-            mViewPager.setCurrentItem(median - median % mItemCount);
+            mViewPager.setCurrentItem(median - median % mItemCount, false);
             // 防止首次不回调
             mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem() % mItemCount);
         }
