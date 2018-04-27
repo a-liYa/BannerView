@@ -2,7 +2,6 @@ package com.aliya.view.banner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -199,7 +198,6 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
         }
     };
 

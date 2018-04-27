@@ -1,11 +1,13 @@
 package com.aliya.view.banner;
 
-import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.lang.ref.SoftReference;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Banner的PagerAdapter的封装
@@ -15,11 +17,13 @@ import java.lang.ref.SoftReference;
  */
 public abstract class BannerPagerAdapter extends PagerAdapter {
 
-    private SparseArray<SoftReference<View>> mItemCaches = new SparseArray<>();
+    private SparseArray<Queue<SoftReference<View>>> mItemCaches = new SparseArray<>();
 
     public abstract int getTruthCount();
 
     /**
+     * 创建 item view
+     *
      * @param container 父容器
      * @param position  item index
      * @return view
@@ -29,21 +33,29 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
 
     @Override
     public final int getCount() {
-        final int truthCount = getTruthCount();
-        return truthCount < 2 ? truthCount : truthCount + 2;
+        return getTruthCount() > 0 ? Integer.MAX_VALUE : 0;
     }
 
     @Override
-    public final Object instantiateItem(ViewGroup container, final int position) {
+    public final Object instantiateItem(ViewGroup container, int position) {
 
-        int index = BannerView.resolvePosition(getCount(), position);
+        int index = position % getTruthCount();
 
-        View item;
-        SoftReference<View> softReference = mItemCaches.get(position);
+        View item = null;
+        Queue<SoftReference<View>> itemQueue = mItemCaches.get(index);
+        if (itemQueue == null) {
+            mItemCaches.put(index, itemQueue = new LinkedList<>());
+        }
+        SoftReference<View> softItem = itemQueue.poll();
+        while (softItem != null) {
+            if ((item = softItem.get()) != null) {
+                break;
+            }
+            softItem = itemQueue.poll();
+        }
 
-        if (softReference == null || (item = softReference.get()) == null) {
-            item = getItem(container, index % getTruthCount());
-            mItemCaches.put(position, new SoftReference<>(item));
+        if (item == null) {
+            item = getItem(container, index);
         }
 
         container.addView(item);
@@ -55,6 +67,12 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
     @Override
     public final void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+        int index = position % getTruthCount();
+        Queue<SoftReference<View>> itemQueue = mItemCaches.get(index);
+        if (itemQueue == null) {
+            mItemCaches.put(index, itemQueue = new LinkedList<>());
+        }
+        itemQueue.offer(new SoftReference<>((View)object));
     }
 
     @Override
@@ -76,8 +94,12 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
 
     private OnItemClickListener onItemClickListener;
 
-    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
     }
 
 }

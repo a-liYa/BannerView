@@ -2,7 +2,7 @@ package com.aliya.bannerview;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import com.aliya.view.banner.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

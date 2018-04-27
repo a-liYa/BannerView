@@ -2,16 +2,17 @@ package com.aliya.view.banner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+
+import com.aliya.view.banner.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * 自定义Banner条
@@ -75,14 +76,21 @@ public class BannerView extends RelativeLayout {
      * @return item position
      */
     public int getCurrentItem() {
-        return resolvePosition(mViewPager.getAdapter().getCount(), mViewPager.getCurrentItem());
+        return mItemCount == 0 ? 0 : mViewPager.getCurrentItem() % mItemCount;
     }
 
     // 设置对应下标item的当前条目
     public void setCurrentItem(int item) {
-        if (item < 0 || item >= mItemCount) return;
+//        if (item < 0 || item >= mItemCount) return;
+        mViewPager.setCurrentItem(item, false);
+    }
 
-        mViewPager.setCurrentItem(item + 1);
+    public void currentItem0() {
+        mViewPager.setCurrentItem(0, false);
+    }
+
+    public void currentItemTwo() {
+        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 2);
     }
 
     /**
@@ -134,10 +142,13 @@ public class BannerView extends RelativeLayout {
                     - mPagerPaddingLeft - mPagerPaddingRight;
             int hSize = MeasureSpec.getSize(heightMeasureSpec);
 
-            if (wMode == MeasureSpec.EXACTLY && hMode != MeasureSpec.EXACTLY) {
+            ViewGroup.LayoutParams params = getLayoutParams();
+            if (wMode == MeasureSpec.EXACTLY && hMode != MeasureSpec.EXACTLY
+                    || params.width != WRAP_CONTENT && params.height == WRAP_CONTENT) {
                 heightMeasureSpec = MeasureSpec
                         .makeMeasureSpec(Math.round(wSize / ratio_w_h), MeasureSpec.EXACTLY);
-            } else if (wMode != MeasureSpec.EXACTLY && hMode == MeasureSpec.EXACTLY) {
+            } else if (wMode != MeasureSpec.EXACTLY && hMode == MeasureSpec.EXACTLY
+                    || params.width == WRAP_CONTENT && params.height != WRAP_CONTENT) {
                 widthMeasureSpec = MeasureSpec
                         .makeMeasureSpec(Math.round(hSize * ratio_w_h), MeasureSpec.EXACTLY);
             }
@@ -154,28 +165,24 @@ public class BannerView extends RelativeLayout {
         if (mViewPager == null || adapter == null) {
             return;
         }
-
         if (mAdapter != null) {
-            mAdapter.setOnItemClickListener(null);
+            mViewPager.removeOnPageChangeListener(mOnPageChangeListener);
+            stopAuto();
         }
 
         mAdapter = adapter;
-
-        mViewPager.setAdapter(mAdapter);
         mItemCount = mAdapter.getTruthCount();
-        mAdapter.setOnItemClickListener(mInnerOnItemClickListener);
+        mViewPager.setAdapter(mAdapter);
 
-        mViewPager.removeOnPageChangeListener(mOnPageChangeListener);
-        stopAuto();
+        mViewPager.addOnPageChangeListener(mOnPageChangeListener);
 
-        if (mItemCount > 1) {
-            mViewPager.addOnPageChangeListener(mOnPageChangeListener);
-            mViewPager.setCurrentItem(1);
-            startAuto();
-        } else if (mItemCount == 1) {
+        if (mItemCount > 0) {
+            int median = Integer.MAX_VALUE / 2;
+            mViewPager.setCurrentItem(median - median % mItemCount);
             // 防止首次不回调
-            mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem());
+            mOnPageChangeListener.onPageSelected(mViewPager.getCurrentItem() % mItemCount);
         }
+
         if (mAdapterChangeListener != null) {
             mAdapterChangeListener.onAdapterChange();
         }
@@ -186,78 +193,49 @@ public class BannerView extends RelativeLayout {
         return mViewPager;
     }
 
-    private OnItemClickListener mInnerOnItemClickListener = new OnItemClickListener() {
-
-        @Override
-        public void onItemClick(View item, int position) {
-            if (mOnItemClickListener != null)
-                mOnItemClickListener.onItemClick(item, position);
-        }
-    };
-
     private OnPageChangeListener mOnPageChangeListener = new OnPageChangeListener() {
-        // 某一个item被选中
+
         @Override
         public void onPageSelected(int position) {
-            if (mOnPageChangeListeners != null
-                    && mOnPageChangeListeners.size() > 0) {
-                position = resolvePosition(mViewPager.getAdapter().getCount(), position);
+            if (mOnPageChangeListeners != null) {
+                position = position % mItemCount;
                 for (OnPageChangeListener iterable : mOnPageChangeListeners) {
                     iterable.onPageSelected(position);
                 }
             }
         }
 
-        // 当滑动进行中
         @Override
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
-            position = resolvePosition(mViewPager.getAdapter().getCount(), position);
-            if (mOnPageChangeListeners != null && mOnPageChangeListeners.size() > 0) {
+            if (mOnPageChangeListeners != null) {
+                position = position % mItemCount;
                 for (OnPageChangeListener iterable : mOnPageChangeListeners) {
                     iterable.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 }
             }
         }
 
-        // 当滑动的状态变化时
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (mOnPageChangeListeners != null
-                    && mOnPageChangeListeners.size() > 0) {
+            if (mOnPageChangeListeners != null) {
                 for (OnPageChangeListener iterable : mOnPageChangeListeners) {
                     iterable.onPageScrollStateChanged(state);
                 }
             }
 
             // 滑动结束，开启定时器
-            if (state == ViewPager.SCROLL_STATE_IDLE) {
-                startAuto();
-                int index = getCurrentItem();
-                if (index + 1 != mViewPager.getCurrentItem()) {
-                    mViewPager.setCurrentItem(index + 1, false);
-                }
-            } else { // 滑动中，停止定时器
-                stopAuto();
-            }
+//            if (state == ViewPager.SCROLL_STATE_IDLE) {
+//                startAuto();
+//                int index = getCurrentItem();
+//                if (index + 1 != mViewPager.getCurrentItem()) {
+//                    mViewPager.setCurrentItem(index + 1, false);
+//                }
+//            } else { // 滑动中，停止定时器
+//                stopAuto();
+//            }
         }
     };
-
-    /**
-     * 获取正确的 position
-     */
-    static final int resolvePosition(final int count, int position) {
-        if (count > 1) {
-            if (position == 0) { // 首位（0） 跳转到末尾倒数第二位
-                position = count - 3;
-            } else if (position == count - 1) { // 末位(count)，跳转到首位（1）
-                position = 0;
-            } else {
-                position -= 1;
-            }
-        }
-        return position;
-    }
 
     public BannerPagerAdapter getAdapter() {
         return mAdapter;
@@ -328,16 +306,6 @@ public class BannerView extends RelativeLayout {
             }
         }
     };
-
-    private OnItemClickListener mOnItemClickListener;
-
-    public OnItemClickListener getOnItemClickListener() {
-        return mOnItemClickListener;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
-    }
 
     private OnAdapterChangeListener mAdapterChangeListener;
 
