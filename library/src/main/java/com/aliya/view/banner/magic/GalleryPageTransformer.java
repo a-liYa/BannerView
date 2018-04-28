@@ -1,7 +1,7 @@
 package com.aliya.view.banner.magic;
 
 import android.os.Build;
-import com.aliya.view.banner.view.ViewPager;
+import com.aliya.view.banner.view.BannerViewPager;
 import android.view.View;
 
 /**
@@ -10,14 +10,14 @@ import android.view.View;
  * @author a_liYa
  * @date 2018/3/6 09:51.
  */
-public class GalleryPageTransformer implements ViewPager.PageTransformer {
+public class GalleryPageTransformer implements BannerViewPager.PageTransformer {
 
     private float mMaxScale;
     private float mMinScale;
     private int mPageMargin;
-    private ViewPager mViewPager;
+    private BannerViewPager mViewPager;
 
-    public GalleryPageTransformer(ViewPager viewPager, int pageMargin,
+    public GalleryPageTransformer(BannerViewPager viewPager, int pageMargin,
                                   float maxScale, float minScale) {
         mMaxScale = maxScale;
         mMinScale = minScale;
@@ -40,10 +40,10 @@ public class GalleryPageTransformer implements ViewPager.PageTransformer {
         }
 
         if (page.getParent() instanceof View) {
-            View parent = (ViewPager) page.getParent();
+            View parent = (BannerViewPager) page.getParent();
             int scrollX = parent.getScrollX();
             /**
-             * 参考自{@link ViewPager#onPageScrolled(int, float, int)}
+             * 参考自{@link BannerViewPager#onPageScrolled(int, float, int)}
              */
             position = (float) (page.getLeft() - parent.getPaddingLeft() - scrollX) /
                     getClientWidth(parent);

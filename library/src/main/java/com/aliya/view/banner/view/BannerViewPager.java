@@ -111,7 +111,7 @@ import java.util.List;
  *  TODO 修改之处加了注释 {@code // a_liYa :}
  * </p>
  */
-public class ViewPager extends ViewGroup {
+public class BannerViewPager extends ViewGroup {
     private static final String TAG = "ViewPager";
     private static final boolean DEBUG = false;
 
@@ -312,9 +312,9 @@ public class ViewPager extends ViewGroup {
          * or when it is fully stopped/idle.
          *
          * @param state The new scroll state.
-         * @see ViewPager#SCROLL_STATE_IDLE
-         * @see ViewPager#SCROLL_STATE_DRAGGING
-         * @see ViewPager#SCROLL_STATE_SETTLING
+         * @see BannerViewPager#SCROLL_STATE_IDLE
+         * @see BannerViewPager#SCROLL_STATE_DRAGGING
+         * @see BannerViewPager#SCROLL_STATE_SETTLING
          */
         void onPageScrollStateChanged(int state);
     }
@@ -369,11 +369,11 @@ public class ViewPager extends ViewGroup {
         /**
          * Called when the adapter for the given view pager has changed.
          *
-         * @param ViewPager  ViewPager where the adapter change has happened
+         * @param BannerViewPager  ViewPager where the adapter change has happened
          * @param oldAdapter the previously set adapter
          * @param newAdapter the newly set adapter
          */
-        void onAdapterChanged(@NonNull ViewPager ViewPager,
+        void onAdapterChanged(@NonNull BannerViewPager BannerViewPager,
                               @Nullable PagerAdapter oldAdapter, @Nullable PagerAdapter newAdapter);
     }
 
@@ -393,12 +393,12 @@ public class ViewPager extends ViewGroup {
     public @interface DecorView {
     }
 
-    public ViewPager(Context context) {
+    public BannerViewPager(Context context) {
         super(context);
         initViewPager();
     }
 
-    public ViewPager(Context context, AttributeSet attrs) {
+    public BannerViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         initViewPager();
     }
@@ -3046,7 +3046,7 @@ public class ViewPager extends ViewGroup {
         @Override
         public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
             super.onInitializeAccessibilityEvent(host, event);
-            event.setClassName(ViewPager.class.getName());
+            event.setClassName(BannerViewPager.class.getName());
             final AccessibilityRecordCompat recordCompat =
                     AccessibilityEventCompat.asRecord(event);
             recordCompat.setScrollable(canScroll());
@@ -3061,7 +3061,7 @@ public class ViewPager extends ViewGroup {
         @Override
         public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
             super.onInitializeAccessibilityNodeInfo(host, info);
-            info.setClassName(ViewPager.class.getName());
+            info.setClassName(BannerViewPager.class.getName());
             info.setScrollable(canScroll());
             if (canScrollHorizontally(1)) {
                 info.addAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD);

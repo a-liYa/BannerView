@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.aliya.view.banner.view.ViewPager;
+import com.aliya.view.banner.view.BannerViewPager;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -150,7 +150,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
         }
     }
 
-    private ViewPager.OnPageChangeListener mOnPageChangeListener = new ViewPager
+    private BannerViewPager.OnPageChangeListener mOnPageChangeListener = new BannerViewPager
             .OnPageChangeListener() {
 
         @Override

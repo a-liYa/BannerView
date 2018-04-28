@@ -5,8 +5,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 
-import com.aliya.view.banner.view.ViewPager;
-import com.aliya.view.banner.view.ViewPager.OnPageChangeListener;
+import com.aliya.view.banner.view.BannerViewPager;
+import com.aliya.view.banner.view.BannerViewPager.OnPageChangeListener;
 
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -26,7 +26,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  */
 public class BannerView extends RelativeLayout {
 
-    private ViewPager mViewPager;
+    private BannerViewPager mViewPager;
     private Set<OnPageChangeListener> mOnPageChangeListeners = new HashSet<>();
 
     private int mAutoMs;                // 轮播间隔时间.
@@ -61,7 +61,7 @@ public class BannerView extends RelativeLayout {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        mViewPager = new ViewPager(context);
+        mViewPager = new BannerViewPager(context);
         addView(mViewPager, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -211,7 +211,7 @@ public class BannerView extends RelativeLayout {
 
     }
 
-    public ViewPager getViewPager() {
+    public BannerViewPager getViewPager() {
         return mViewPager;
     }
 
@@ -247,7 +247,7 @@ public class BannerView extends RelativeLayout {
             }
 
             // 滑动结束，开启定时器
-            if (state == ViewPager.SCROLL_STATE_IDLE) {
+            if (state == BannerViewPager.SCROLL_STATE_IDLE) {
                 startAuto();
             } else { // 滑动中，停止定时器
                 stopAuto();

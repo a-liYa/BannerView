@@ -2,7 +2,7 @@ package com.aliya.bannerview;
 
 import android.app.Activity;
 import android.os.Bundle;
-import com.aliya.view.banner.view.ViewPager;
+import com.aliya.view.banner.view.BannerViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +46,7 @@ public class GallerySimpleActivity extends Activity {
 
         };
 
-        ViewPager viewPager = banner.getViewPager();
+        BannerViewPager viewPager = banner.getViewPager();
 
         viewPager.setPageTransformer(true,
                 new GalleryPageTransformer(viewPager, dip2px(20), 1, 0.86f));
