@@ -85,6 +85,7 @@ public abstract class PagerAdapter {
 
     /**
      * Return the number of views available.
+     * @return size.
      */
     public abstract int getCount();
 

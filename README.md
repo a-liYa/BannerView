@@ -2,7 +2,7 @@
 
 #### 依赖
 ```
-compile 'com.aliya:bannerview:0.1.0'
+compile 'com.aliya:bannerview:2.0.0'
 compile 'com.android.support:support-v4:x.x.x' // 因为ViewPager属于v4包
 
 ```
@@ -51,7 +51,7 @@ banner.setAdapter(adapter);
 
  `布局`
 
-```
+```xml
     <com.aliya.view.banner.BannerView
         android:id="@+id/banner_view"
         android:layout_width="match_parent"
@@ -75,7 +75,7 @@ banner.setAdapter(adapter);
 ```
 
  `代码`  
-```
+```java
 indicator = findViewById(R.id.banner_indicator);
         
 indicator.setAdapter(new BannerIndicatorLayout.IndicatorAdapter() {
@@ -100,3 +100,4 @@ indicator.setAdapter(new BannerIndicatorLayout.IndicatorAdapter() {
 indicator.setupWithBanner(banner);
 
 ```
+
