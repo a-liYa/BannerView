@@ -135,6 +135,11 @@ public class BannerViewPager extends ViewGroup {
      */
     private int mExpectedAdapterCount;
 
+    /**
+     * // a_liYa : 过度动画比例，默认:1.0f
+     */
+    private float mTransitionAnimationScale = 1.0f;
+
     static class ItemInfo {
         Object object;
         int position;
@@ -488,6 +493,12 @@ public class BannerViewPager extends ViewGroup {
             mScroller.abortAnimation();
         }
         super.onDetachedFromWindow();
+    }
+
+    // a_liYa : 添加设置过渡动画（页面切换）比例
+    public void setTransitionAnimationScale(float transitionAnimationScale) {
+        if (transitionAnimationScale >= 0)
+            mTransitionAnimationScale = transitionAnimationScale;
     }
 
     void setScrollState(int newState) {
@@ -1007,7 +1018,8 @@ public class BannerViewPager extends ViewGroup {
         // Reset the "scroll started" flag. It will be flipped to true in all places
         // where we call computeScrollOffset().
         mIsScrollStarted = false;
-        mScroller.startScroll(sx, sy, dx, dy, duration);
+        // a_liYa : 添加动画时长比例
+        mScroller.startScroll(sx, sy, dx, dy, Math.round(duration * mTransitionAnimationScale));
         ViewCompat.postInvalidateOnAnimation(this);
     }
 

@@ -53,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
         adapter.setOnItemClickListener(this);
 
         banner.setAdapter(adapter);
+        banner.getViewPager().setTransitionAnimationScale(4); // 新增控制过渡动画比例的方法
 
         indicator.setAdapter(new BannerIndicatorLayout.IndicatorAdapter() {
             @Override
