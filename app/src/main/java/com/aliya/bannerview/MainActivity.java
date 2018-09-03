@@ -14,6 +14,8 @@ import com.aliya.view.banner.BannerPagerAdapter;
 import com.aliya.view.banner.BannerView;
 import com.aliya.view.banner.OnItemClickListener;
 
+import static com.aliya.bannerview.Utils.inflate;
+
 public class MainActivity extends Activity implements View.OnClickListener, OnItemClickListener {
 
     BannerIndicatorLayout indicator;
@@ -43,7 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
             @Override
             protected View getItem(ViewGroup container, int position) {
-                View view = inflate(R.layout.item_banner_view_test, container);
+                View view = inflate(R.layout.item_banner_view_test, container, false);
                 TextView tv = view.findViewById(R.id.tv_content);
                 tv.setText("index " + position);
                 return view;
@@ -59,7 +61,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
-                    return inflate(R.layout.item_banner_indicator_dot, parent);
+                    return inflate(R.layout.item_banner_indicator_dot, parent, false);
                 }
                 return convertView;
             }
@@ -73,10 +75,6 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
         indicator.setupWithBanner(banner);
 
-    }
-
-    private View inflate(int resId, ViewGroup root) {
-        return LayoutInflater.from(this).inflate(resId, root, false);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                     @Override
                     protected View getItem(ViewGroup container, int position) {
-                        View view = inflate(R.layout.item_banner_view_test, container);
+                        View view = inflate(R.layout.item_banner_view_test, container, false);
                         TextView tv = view.findViewById(R.id.tv_content);
                         tv.setText("index " + position);
                         return view;
@@ -118,7 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                     @Override
                     protected View getItem(ViewGroup container, int position) {
-                        View view = inflate(R.layout.item_banner_view_test, container);
+                        View view = inflate(R.layout.item_banner_view_test, container, false);
                         TextView tv = view.findViewById(R.id.tv_content);
                         tv.setText("index " + position);
                         return view;
@@ -138,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
 
                     @Override
                     protected View getItem(ViewGroup container, int position) {
-                        View view = inflate(R.layout.item_banner_view_test, container);
+                        View view = inflate(R.layout.item_banner_view_test, container, false);
                         TextView tv = view.findViewById(R.id.tv_content);
                         tv.setText("index " + position);
                         return view;
