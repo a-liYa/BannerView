@@ -62,12 +62,11 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
         if (itemQueue == null) {
             mItemCaches.put(index, itemQueue = new LinkedList<>());
         }
-        SoftReference<View> softItem = itemQueue.poll();
-        while (softItem != null) {
+        SoftReference<View> softItem;
+        while ((softItem = itemQueue.poll()) != null) {
             if ((item = softItem.get()) != null) {
                 break;
             }
-            softItem = itemQueue.poll();
         }
 
         if (item == null) {
@@ -82,6 +81,13 @@ public abstract class BannerPagerAdapter extends PagerAdapter {
 
     @Override
     public final void destroyItem(ViewGroup container, int position, Object object) {
+        {
+            /*
+             * @see ViewGroup#removeViewInternal(index, view);
+             */
+            ((View) object).clearAnimation();
+            container.endViewTransition((View) object);
+        }
         container.removeView((View) object);
         int index = position % getTruthCount();
         Queue<SoftReference<View>> itemQueue = mItemCaches.get(index);
