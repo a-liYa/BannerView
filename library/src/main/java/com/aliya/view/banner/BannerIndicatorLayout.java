@@ -62,10 +62,10 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
 
     private void initView(Context context, AttributeSet attrs) {
         if (attrs != null) {
-            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BannerIndicator);
-            mItemMargin = ta.getDimensionPixelSize(R.styleable.BannerIndicator_banner_itemMargin,
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BannerIndicatorLayout);
+            mItemMargin = ta.getDimensionPixelSize(R.styleable.BannerIndicatorLayout_banner_itemMargin,
                     0);
-            onlyOneVisible = ta.getBoolean(R.styleable.BannerIndicator_banner_onlyOneVisible, true);
+            onlyOneVisible = ta.getBoolean(R.styleable.BannerIndicatorLayout_banner_onlyOneVisible, true);
             ta.recycle();
         }
 

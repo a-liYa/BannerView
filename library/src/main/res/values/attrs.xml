@@ -11,7 +11,7 @@
         <attr name="banner_pagerPaddingRight" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="BannerIndicator">
+    <declare-styleable name="BannerIndicatorLayout">
         <!-- item的间距 -->
         <attr name="banner_itemMargin" format="dimension" />
         <!--仅有一个时，是否显示指示器-->
