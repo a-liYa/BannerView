@@ -2267,7 +2267,10 @@ public class BannerViewPager extends ViewGroup {
                     // Scroll to follow the motion event
                     final int activePointerIndex = ev.findPointerIndex(mActivePointerId);
                     final float x = ev.getX(activePointerIndex);
-                    needsInvalidate |= performDrag(x);
+                    // a_liYa : 此处修复Adapter#getCount()切换0时 throw IndexOutOfBoundsException
+                    if (!mItems.isEmpty()) {
+                        needsInvalidate |= performDrag(x);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
