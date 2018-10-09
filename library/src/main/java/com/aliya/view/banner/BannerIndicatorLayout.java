@@ -3,6 +3,7 @@ package com.aliya.view.banner;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,7 @@ import android.widget.LinearLayout;
 
 import com.aliya.view.banner.view.BannerViewPager;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -32,7 +31,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
     /**
      * 子条目View集合
      */
-    private Map<Integer, View> mAttachItemViews = new HashMap<>();
+    private SparseArray<View> mAttachItemViews = new SparseArray<>();
     /**
      * 缓存Views
      */
@@ -120,7 +119,9 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
                 setVisibility(!onlyOneVisible && mChildCount < 2 ? INVISIBLE : VISIBLE);
 
                 removeAllViews();
-                mCacheItemViews.addAll(mAttachItemViews.values());
+                for (int i = 0; i < mAttachItemViews.size(); i++) {
+                    mCacheItemViews.add(mAttachItemViews.valueAt(i));
+                }
                 mAttachItemViews.clear();
                 for (int i = 0; i < mChildCount; i++) {
                     View poll = mCacheItemViews.poll();
@@ -158,22 +159,20 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
                                    float positionOffset, int positionOffsetPixels) {
 
             if (mAdapter != null) {
-                int index = screenFirstVisiblePosition;
-                View indexView = mAttachItemViews.get(index);
-                float indexOffset = positionOffset;
+                View indexView = mAttachItemViews.get(screenFirstVisiblePosition);
 
                 int laterIndex = (screenFirstVisiblePosition + 1) % mChildCount;
                 View laterIndexView = mAttachItemViews.get(laterIndex);
-                float laterIndexOffset = 1.0f - indexOffset;
+                float laterIndexOffset = 1.0f - positionOffset;
 
-                if (indexOffset == 0) {
+                if (positionOffset == 0) {
                     int prevIndex = (screenFirstVisiblePosition + mChildCount - 1) % mChildCount;
-                    mAdapter.onPagerScrolled(index, indexView, indexOffset, prevIndex,
-                            mAttachItemViews.get(prevIndex), laterIndexOffset);
+                    mAdapter.onPagerScrolled(screenFirstVisiblePosition, indexView, positionOffset,
+                            prevIndex, mAttachItemViews.get(prevIndex), laterIndexOffset);
                 }
 
-                mAdapter.onPagerScrolled(index, indexView, indexOffset, laterIndex,
-                        laterIndexView, laterIndexOffset);
+                mAdapter.onPagerScrolled(screenFirstVisiblePosition, indexView, positionOffset,
+                        laterIndex, laterIndexView, laterIndexOffset);
             }
 
         }
