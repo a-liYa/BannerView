@@ -326,6 +326,7 @@ public class BannerView extends RelativeLayout {
     private boolean isCanAuto() {
         return mAdapter != null
                 && mAdapter.isCanCycle()
+                && mItemCount > 0
                 && auto
                 && isAttached
                 && onStarted;
@@ -337,8 +338,8 @@ public class BannerView extends RelativeLayout {
             if (mViewPager == null || mAdapter == null) return;
 
             if (mViewPager.getCurrentItem() >= mAdapter.getCount()) {
-                int median = mAdapter.getCount() / 2;
-                mViewPager.setCurrentItem(median - median % mItemCount, false);
+                int middle = mAdapter.getCount() / 2;
+                mViewPager.setCurrentItem(middle - middle % mItemCount, false);
             } else {
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             }
