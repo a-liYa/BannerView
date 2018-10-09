@@ -1,13 +1,16 @@
 # BannerView
 
-#### 依赖
+### 最新版本
+https://bintray.com/a-liya/maven/bannerview/_latestVersion
+
+### 依赖
 ```
-compile 'com.aliya:bannerview:2.0.0'
+compile 'com.aliya:bannerview:2.0.2'
 compile 'com.android.support:support-v4:x.x.x' // 因为ViewPager属于v4包
 
 ```
 
-#### 使用
+### 使用
 
 > 1. 布局
 
