@@ -1,6 +1,6 @@
 <resources>
 
-    <declare-styleable name="Banner">
+    <declare-styleable name="BannerView">
         <!--是否自动轮播-->
         <attr name="banner_isAuto" format="boolean" />
         <!--轮播间隔时间-->

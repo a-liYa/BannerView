@@ -67,10 +67,10 @@ public class BannerView extends RelativeLayout {
 
         if (attrs == null) return;
 
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.Banner);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.BannerView);
 
         { // 固定宽高比参数
-            String w_h = ta.getString(R.styleable.Banner_banner_w2h);
+            String w_h = ta.getString(R.styleable.BannerView_banner_w2h);
             if (!TextUtils.isEmpty(w_h) && w_h.contains(RATIO_SYMBOL)) {
                 String[] split = w_h.trim().split(RATIO_SYMBOL);
                 if (split != null && split.length == 2) {
@@ -84,14 +84,14 @@ public class BannerView extends RelativeLayout {
             }
         }
 
-        auto = ta.getBoolean(R.styleable.Banner_banner_isAuto, auto);
-        mAutoMs = ta.getInteger(R.styleable.Banner_banner_autoMs,
+        auto = ta.getBoolean(R.styleable.BannerView_banner_isAuto, auto);
+        mAutoMs = ta.getInteger(R.styleable.BannerView_banner_autoMs,
                 context.getResources().getInteger(R.integer.banner_view_auto_duration));
 
         mPagerPaddingLeft =
-                ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingLeft, 0);
+                ta.getDimensionPixelSize(R.styleable.BannerView_banner_pagerPaddingLeft, 0);
         mPagerPaddingRight =
-                ta.getDimensionPixelSize(R.styleable.Banner_banner_pagerPaddingRight, 0);
+                ta.getDimensionPixelSize(R.styleable.BannerView_banner_pagerPaddingRight, 0);
 
         mViewPager.setPadding(mPagerPaddingLeft, 0, mPagerPaddingRight, 0);
         if (mPagerPaddingLeft > 0 || mPagerPaddingRight > 0) {
