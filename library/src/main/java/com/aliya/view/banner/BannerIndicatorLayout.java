@@ -43,7 +43,7 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
      */
     private Integer selectedKey = SELECTED_NO_KEY;
 
-    public static final int SELECTED_NO_KEY = -1;
+    private static final int SELECTED_NO_KEY = -1;
 
     public BannerIndicatorLayout(Context context, AttributeSet attrs,
                                  int defStyleAttr) {
