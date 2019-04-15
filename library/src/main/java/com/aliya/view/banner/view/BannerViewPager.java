@@ -1665,16 +1665,19 @@ public class BannerViewPager extends ViewGroup {
                     // a_liYa : 解决高度设置 wrap_content 无效问题
                     final int widthSpec = MeasureSpec.makeMeasureSpec(
                             (int) ((childWidthSize + getPaddingLeft() + getPaddingRight()) * lp.widthFactor), MeasureSpec.EXACTLY);
-                    measureChild(child, widthSpec, heightMeasureSpec);
+
+                    measureChild(child, widthSpec, mChildHeightMeasureSpec);
                     maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
                 }
             }
         }
-
         // a_liYa : 解决高度设置 wrap_content 无效问题
-        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
-                    Math.min(maxChildHeight + getPaddingTop() + getPaddingBottom(), childHeightSize));
+        switch (MeasureSpec.getMode(heightMeasureSpec)) {
+            case MeasureSpec.AT_MOST:
+            case MeasureSpec.UNSPECIFIED:
+                setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
+                        maxChildHeight + getPaddingTop() + getPaddingBottom());
+                break;
         }
     }
 
