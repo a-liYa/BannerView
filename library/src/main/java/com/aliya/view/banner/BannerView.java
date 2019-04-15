@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
-
-import com.aliya.view.banner.view.BannerViewPager;
-import com.aliya.view.banner.view.BannerViewPager.OnPageChangeListener;
-
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
+
+import com.aliya.view.banner.view.BannerViewPager;
+import com.aliya.view.banner.view.BannerViewPager.OnPageChangeListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,7 +23,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * @author a_liYa
  * @date 2016-4-18 下午4:57:29
  */
-public class BannerView extends RelativeLayout {
+public class BannerView extends FrameLayout {
 
     private BannerViewPager mViewPager;
     private Set<OnPageChangeListener> mOnPageChangeListeners = new HashSet<>();
@@ -63,7 +62,7 @@ public class BannerView extends RelativeLayout {
     private void initView(Context context, AttributeSet attrs) {
         mViewPager = new BannerViewPager(context);
         addView(mViewPager, 0, new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+                ViewGroup.LayoutParams.WRAP_CONTENT));
 
         if (attrs == null) return;
 
