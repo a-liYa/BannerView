@@ -1,16 +1,19 @@
 # BannerView
 
-### 最新版本
-https://bintray.com/a-liya/maven/bannerview/_latestVersion
+## 依赖
 
-### 依赖
+[![License](https://img.shields.io/badge/License-Apache%202.0-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Download](https://api.bintray.com/packages/a-liya/maven/bannerview/images/download.svg?version=2.1.0) ](https://bintray.com/a-liya/maven/bannerview/2.1.0/link)
+[![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%20-f0ad4e.svg)](https://android-arsenal.com/api?level=12)
+
+
 ```
-compile 'com.aliya:bannerview:2.0.2'
+compile 'com.aliya:bannerview:2.1.0'
 compile 'com.android.support:support-v4:x.x.x' // 因为ViewPager属于v4包
 
 ```
 
-### 使用
+## 使用
 
 > 1. 布局
 
