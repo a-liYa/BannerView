@@ -15,8 +15,7 @@
         app:banner_autoMs="4000"
         app:banner_isAuto="true"
         app:banner_pagerPaddingLeft="40dp"
-        app:banner_pagerPaddingRight="40dp"
-        app:banner_w2h="280:150">
+        app:banner_pagerPaddingRight="40dp" >
 
     </com.aliya.view.banner.BannerView>
 

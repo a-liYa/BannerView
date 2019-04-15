@@ -14,7 +14,7 @@
         android:background="@color/colorPrimary"
         app:banner_autoMs="3000"
         app:banner_isAuto="true"
-        app:banner_w2h="360:206">
+        app:banner_w2h="2:1">
 
         <com.aliya.view.banner.BannerIndicatorLayout
             android:id="@+id/banner_indicator"
