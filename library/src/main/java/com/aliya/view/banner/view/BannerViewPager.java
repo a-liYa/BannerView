@@ -1650,6 +1650,7 @@ public class BannerViewPager extends ViewGroup {
         populate();
         mInLayout = false;
 
+        int maxChildHeight = 0;
         // Page views next.
         size = getChildCount();
         for (int i = 0; i < size; ++i) {
@@ -1663,9 +1664,17 @@ public class BannerViewPager extends ViewGroup {
                 if (lp == null || !lp.isDecor) {
                     final int widthSpec = MeasureSpec.makeMeasureSpec(
                             (int) (childWidthSize * lp.widthFactor), MeasureSpec.EXACTLY);
-                    child.measure(widthSpec, mChildHeightMeasureSpec);
+                    // a_liYa : 解决高度设置 wrap_content 无效问题
+                    measureChild(child, widthSpec, mChildHeightMeasureSpec);
+                    maxChildHeight = Math.max(maxChildHeight, child.getMeasuredHeight());
                 }
             }
+        }
+
+        // a_liYa : 解决高度设置 wrap_content 无效问题
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
+                    Math.min(maxChildHeight + getPaddingTop() + getPaddingBottom(), childHeightSize));
         }
     }
 
@@ -3043,7 +3052,7 @@ public class BannerViewPager extends ViewGroup {
 
     @Override
     protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
-        return generateDefaultLayoutParams();
+        return new LayoutParams(p);
     }
 
     @Override
@@ -3168,6 +3177,10 @@ public class BannerViewPager extends ViewGroup {
 
         public LayoutParams() {
             super(MATCH_PARENT, MATCH_PARENT);
+        }
+
+        public LayoutParams(ViewGroup.LayoutParams source) {
+            super(source);
         }
 
         public LayoutParams(Context context, AttributeSet attrs) {
