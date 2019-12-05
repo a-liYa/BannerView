@@ -2295,17 +2295,18 @@ public class BannerViewPager extends ViewGroup {
                     final int width = getClientWidth();
                     final int scrollX = getScrollX();
                     final ItemInfo ii = infoForCurrentScrollPosition();
-                    final float marginOffset = (float) mPageMargin / width;
-                    final int currentPage = ii.position;
-                    final float pageOffset = (((float) scrollX / width) - ii.offset)
-                            / (ii.widthFactor + marginOffset);
-                    final int activePointerIndex = ev.findPointerIndex(mActivePointerId);
-                    final float x = ev.getX(activePointerIndex);
-                    final int totalDelta = (int) (x - mInitialMotionX);
-                    int nextPage = determineTargetPage(currentPage, pageOffset, initialVelocity,
-                            totalDelta);
-                    setCurrentItemInternal(nextPage, true, true, initialVelocity);
-
+                    if (ii != null) { // a_liYa : 修复 ii 空指针
+                        final float marginOffset = (float) mPageMargin / width;
+                        final int currentPage = ii.position;
+                        final float pageOffset = (((float) scrollX / width) - ii.offset)
+                                / (ii.widthFactor + marginOffset);
+                        final int activePointerIndex = ev.findPointerIndex(mActivePointerId);
+                        final float x = ev.getX(activePointerIndex);
+                        final int totalDelta = (int) (x - mInitialMotionX);
+                        int nextPage = determineTargetPage(currentPage, pageOffset, initialVelocity,
+                                totalDelta);
+                        setCurrentItemInternal(nextPage, true, true, initialVelocity);
+                    }
                     needsInvalidate = resetTouch();
                 }
                 break;
