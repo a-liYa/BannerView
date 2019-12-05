@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:banner_autoMs="3000"
-        app:banner_isAuto="true"
+        app:banner_isAuto="false"
         app:banner_w2h="2:1">
 
         <com.aliya.view.banner.BannerIndicatorLayout
@@ -21,7 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_gravity="right|bottom"
-            android:layout_marginRight="15dp"
+            android:clipToPadding="false"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             app:banner_itemMargin="6dp"
             app:banner_onlyOneVisible="true" />
 

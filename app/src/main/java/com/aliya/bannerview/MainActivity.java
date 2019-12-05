@@ -68,7 +68,24 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
             @Override
             public void onPagerScrolled(int index, View indexView, float indexOffset, int
                     laterIndex, View laterIndexView, float laterIndexOffset) {
-
+                int count = indicator.getChildCount();
+                if (count > 0) {
+                    for (int i = 0; i < count; i++) {
+                        View childAt = indicator.getChildAt(i);
+                        if (childAt != null && childAt != laterIndexView && childAt != indexView) {
+                            childAt.setScaleX(1);
+                            childAt.setScaleY(1);
+                        }
+                    }
+                }
+                if (laterIndexView != null) {
+                    laterIndexView.setScaleX(1 + 2f / 3 * (indexOffset));
+                    laterIndexView.setScaleY(1 + 2f / 3 * (indexOffset));
+                }
+                if (indexView != null) {
+                    indexView.setScaleX(5f / 3 - 2f / 3 * (indexOffset));
+                    indexView.setScaleY(5f / 3 - 2f / 3 * (indexOffset));
+                }
             }
         });
 
