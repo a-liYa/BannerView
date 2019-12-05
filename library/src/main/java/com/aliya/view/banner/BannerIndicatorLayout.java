@@ -3,6 +3,7 @@ package com.aliya.view.banner;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
@@ -164,7 +165,9 @@ public class BannerIndicatorLayout extends LinearLayout implements OnAdapterChan
                 int laterIndex = (screenFirstVisiblePosition + 1) % mChildCount;
                 View laterIndexView = mAttachItemViews.get(laterIndex);
                 float laterIndexOffset = 1.0f - positionOffset;
-
+                if (screenFirstVisiblePosition == laterIndex) { // 说明 childCount = 1;
+                    laterIndexOffset = positionOffset;
+                }
                 if (positionOffset == 0) {
                     int prevIndex = (screenFirstVisiblePosition + mChildCount - 1) % mChildCount;
                     mAdapter.onPagerScrolled(screenFirstVisiblePosition, indexView, positionOffset,
