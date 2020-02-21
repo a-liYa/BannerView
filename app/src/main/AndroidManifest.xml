@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GallerySimpleActivity" />
+        <activity android:name=".SurgeSimpleActivity"
+            android:label="澎湃示例"/>
     </application>
 
 </manifest>

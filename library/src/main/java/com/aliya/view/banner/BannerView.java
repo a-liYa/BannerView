@@ -305,15 +305,31 @@ public class BannerView extends FrameLayout {
      */
     public final void startAuto() {
         removeCallbacks(mAutoRunnable);
+        onRemoveDelayed();
         if (isCanAuto()) {
             postDelayed(mAutoRunnable, mAutoMs);
+            onPostDelayed(mAutoMs);
         }
+    }
+
+    /**
+     * 开启延迟
+     * @param delayMs 延迟时间
+     */
+    protected void onPostDelayed(int delayMs) {
+    }
+
+    /**
+     * 停止延迟
+     */
+    protected void onRemoveDelayed(){
     }
 
     /**
      * 停止轮播
      */
     public final void stopAuto() {
+        onRemoveDelayed();
         removeCallbacks(mAutoRunnable);
     }
 
@@ -331,7 +347,7 @@ public class BannerView extends FrameLayout {
                 && onStarted;
     }
 
-    private Runnable mAutoRunnable = new Runnable() {
+    protected Runnable mAutoRunnable = new Runnable() {
         @Override
         public void run() {
             if (mViewPager == null || mAdapter == null) return;

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SurgeSimpleActivity">
+
+    <com.aliya.bannerview.widget.XBannerView
+        android:id="@+id/banner_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <LinearLayout
+            android:id="@+id/indicator_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/progress_bar1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progressDrawable="@drawable/custom_progress_drawable" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progressDrawable="@drawable/custom_progress_drawable" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar3"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progressDrawable="@drawable/custom_progress_drawable" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar4"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progressDrawable="@drawable/custom_progress_drawable" />
+
+        </LinearLayout>
+    </com.aliya.bannerview.widget.XBannerView>
+</LinearLayout>

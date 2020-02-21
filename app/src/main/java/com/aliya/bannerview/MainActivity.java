@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
         findViewById(R.id.btn_1_num).setOnClickListener(this);
         findViewById(R.id.btn_5_num).setOnClickListener(this);
         findViewById(R.id.btn_gallery).setOnClickListener(this);
+        findViewById(R.id.open_surge).setOnClickListener(this);
 
         adapter = new BannerPagerAdapter() {
             @Override
@@ -164,6 +165,9 @@ public class MainActivity extends Activity implements View.OnClickListener, OnIt
                 break;
             case R.id.btn_gallery:
                 startActivity(new Intent(this, GallerySimpleActivity.class));
+                break;
+            case R.id.open_surge:
+                startActivity(new Intent(this, SurgeSimpleActivity.class));
                 break;
         }
     }

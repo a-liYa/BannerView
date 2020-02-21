@@ -71,4 +71,11 @@
         android:layout_gravity="center_horizontal"
         android:text="画廊示例" />
 
+    <TextView
+        android:id="@+id/open_surge"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="澎湃BannerView示例"
+        android:textSize="16sp" />
 </LinearLayout>
