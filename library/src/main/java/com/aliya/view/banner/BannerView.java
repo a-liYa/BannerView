@@ -40,6 +40,8 @@ public class BannerView extends FrameLayout {
 
     private BannerPagerAdapter mAdapter;
 
+    private int mInterval = 100;//回调翻页时间进度间隔 默认100ms
+
     /**
      * 宽高的比率
      */
@@ -250,6 +252,9 @@ public class BannerView extends FrameLayout {
                 startAuto();
             } else { // 滑动中，停止定时器
                 stopAuto();
+                if (mOnScrollProgressListener!=null){
+                    mOnScrollProgressListener.onScrolling();
+                }
             }
         }
     };
@@ -304,9 +309,9 @@ public class BannerView extends FrameLayout {
      * 开始轮播, 如果条件均满足的话.
      */
     public final void startAuto() {
-        removeCallbacks(mAutoRunnable);
+        removeCallbacks(mProgressRunnable);
         if (isCanAuto()) {
-            postDelayed(mAutoRunnable, mAutoMs);
+            postDelayed(mProgressRunnable, mInterval);
         }
     }
 
@@ -314,7 +319,7 @@ public class BannerView extends FrameLayout {
      * 停止轮播
      */
     public final void stopAuto() {
-        removeCallbacks(mAutoRunnable);
+        removeCallbacks(mProgressRunnable);
     }
 
     /**
@@ -343,7 +348,38 @@ public class BannerView extends FrameLayout {
                 mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
             }
             if (isCanAuto()) {
-                postDelayed(mAutoRunnable, mAutoMs);
+                postDelayed(mProgressRunnable,mInterval);
+            }
+        }
+    };
+
+    private Runnable mProgressRunnable = new Runnable() {
+        private int alreadyUsedTime = 0;
+
+        @Override
+        public void run() {
+            //计算已经使用时间
+            alreadyUsedTime+=mInterval;
+            alreadyUsedTime = Math.min(alreadyUsedTime,mAutoMs);
+            //回调时间进度
+            float progress = alreadyUsedTime*1f/mAutoMs;
+            int currentItem = mViewPager.getCurrentItem();
+            int count = mAdapter.getTruthCount();
+            if (mOnScrollProgressListener!=null){
+                mOnScrollProgressListener.onUpdateProgress(currentItem,count,progress);
+            }
+//            Log.e("BannerView","progress=="+progress);
+            //时间积累到可以处理翻页
+            if (alreadyUsedTime>=mAutoMs){
+                alreadyUsedTime =0;
+                if (isCanAuto()) {
+                    post(mAutoRunnable);
+                }
+            }
+            //重新开始计时
+            if (isCanAuto()){
+                removeCallbacks(mProgressRunnable);
+                postDelayed(mProgressRunnable,mInterval);
             }
         }
     };
@@ -354,5 +390,14 @@ public class BannerView extends FrameLayout {
         mAdapterChangeListener = listener;
     }
 
+    private  OnScrollProgressListener mOnScrollProgressListener;
 
+    public void setOnScrollProgressListener(OnScrollProgressListener onScrollProgressListener) {
+        mOnScrollProgressListener = onScrollProgressListener;
+    }
+
+    public void setOnScrollProgressListener(int interval,OnScrollProgressListener onScrollProgressListener) {
+        mInterval = Math.min(20,interval);//最低20ms一次回调 减少性能损耗
+        mOnScrollProgressListener = onScrollProgressListener;
+    }
 }
