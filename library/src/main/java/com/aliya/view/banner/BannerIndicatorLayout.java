@@ -3,7 +3,6 @@ package com.aliya.view.banner;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
