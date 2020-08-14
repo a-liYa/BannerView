@@ -4,12 +4,12 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-337ab7.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Download](https://api.bintray.com/packages/a-liya/maven/bannerview/images/download.svg?version=2.1.0) ](https://bintray.com/a-liya/maven/bannerview/2.1.0/link)
-[![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%20-f0ad4e.svg)](https://android-arsenal.com/api?level=12)
+[![MinSdk](https://img.shields.io/badge/%20MinSdk%20-%2014%20-f0ad4e.svg)](https://android-arsenal.com/api?level=14)
 
 
 ```
-compile 'com.aliya:bannerview:2.1.0'
-compile 'com.android.support:support-v4:x.x.x' // 因为ViewPager属于v4包
+compile 'com.aliya:bannerview:3.0.0'
+compile 'androidx.viewpager:viewpager:x.x.x'
 
 ```
 
